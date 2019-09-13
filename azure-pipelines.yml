@@ -6,10 +6,6 @@
 trigger:
   - master
 
-paths:
-  include: 
-    - webapp/webapp/*
-
 pool:
   vmImage: "ubuntu-latest"
 
