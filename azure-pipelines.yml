@@ -15,5 +15,8 @@ variables:
 steps:
   - task: DotNetCoreCLI@2
     inputs:
-      command: "build"
+      command: "publish"
+      publishWebProjects: true
+      zipAfterPublish: true
       projects: "webapp/webapp/webapp.csproj"
+      arguments: "--configuration Release --output ${Build.ArtifactStagingDirectory}"
