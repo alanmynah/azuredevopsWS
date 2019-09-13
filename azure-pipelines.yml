@@ -17,21 +17,20 @@ steps:
     displayName: "Build"
     inputs:
       command: "build"
-      projects: "webapp/webapp/webapp.csproj"
-      arguments: "--configuration Release --output ${Build.ArtifactStagingDirectory}"
+      projects: "**/*.csproj"
+      arguments: "--configuration Release"
 
   - task: DotNetCoreCLI@2
     displayName: "Publish"
     inputs:
       command: "publish"
-      projects: "webapp/webapp/webapp.csproj"
       publishWebProjects: true
-      zipAfterPublish: true
       arguments: "--configuration Release --output ${Build.ArtifactStagingDirectory}"
+      zipAfterPublish: true
 
   - task: PublishBuildArtifacts@1
     displayName: "Publish artifacts"
     inputs:
-      PathtoPublish: "$(Build.ArtifactStagingDirectory)"
-      ArtifactName: "webapp"
+      pathtoPublish: "$(Build.ArtifactStagingDirectory)"
+      artifactName: "webapp"
       publishLocation: "Container"
