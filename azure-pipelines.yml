@@ -6,6 +6,10 @@
 trigger:
   - master
 
+paths:
+  include: 
+    - webapp/webapp/*
+
 pool:
   vmImage: "ubuntu-latest"
 
@@ -14,9 +18,23 @@ variables:
 
 steps:
   - task: DotNetCoreCLI@2
+    displayName: "Build"
+    inputs:
+      command: "build"
+      projects: "webapp/webapp/webapp.csproj"
+      arguments: "--configuration Release"
+
+  - task: DotNetCoreCLI@2
+    displayName: "Publish"
     inputs:
       command: "publish"
       publishWebProjects: true
       zipAfterPublish: true
       projects: "webapp/webapp/webapp.csproj"
       arguments: "--configuration Release --output ${Build.ArtifactStagingDirectory}"
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
